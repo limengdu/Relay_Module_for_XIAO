@@ -39,7 +39,7 @@ If you want to follow this tutorial through everything, you will need to prepare
         </a>
     </div></td>
     <td align="center"><div class="get_one_now_container" style={{textAlign: 'center'}}>
-        <a class="get_one_now_item" href="https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html">
+        <a class="get_one_now_item" href="https://www.seeedstudio.com/Relay-add-on-module-for-XIAO-p-6310.html">
         <strong><span><font color={'FFFFFF'} size={"4"}> Get One Now 🖱️</font></span></strong>
         </a>
     </div></td>
@@ -52,6 +52,16 @@ The content of this tutorial will broadly go through the following steps.
 2. [Install and cofigure ESPHome in Home Assistant](#install-and-configure-esphome-in-home-assistant)
 3. [Configure the XIAO ESP32C3 and ESPHome connection](#configure-the-xiao-esp32c3-and-esphome-connection)
 4. [Add Relay Module to Home Assistant Dashboard](#add-relay-module-to-home-assistant-dashboard)
+
+### Fast Flash Firmware
+
+We've created a quick flash firmware page for the XIAO, you can use the site below directly to flash Relay's firmware for the XIAO you have without programming. The site will automatically detect the chip of the XIAO you are connecting to, without having to choose, and directly flash the XIAO firmware version that corresponds to the ESP32 chip.
+
+<div class="get_one_now_container" style={{textAlign: 'center'}}>
+    <a class="get_one_now_item" href="https://limengdu.github.io/Relay_Module_for_XIAO/">
+            <strong><span><font color={'FFFFFF'} size={"4"}>Firmware Flasher 🖱️</font></span></strong>
+    </a>
+</div>
 
 ## Select your Home Assistant environment
 
@@ -69,11 +79,7 @@ We have also written how to install Home Assistant for some of Seeed Studio prod
 - [Getting Started with Home Assistant on reTerminal](https://wiki.seeedstudio.com/reTerminal_Home_Assistant/)
 - [Getting Started with Home Assistant on LinkStar H68K/reRouter CM4](https://wiki.seeedstudio.com/h68k-ha-esphome/)
 
-## Install ESPHome in Home Assistant
-
-### Step 1. Install ESPHome
-
-- **Scenario 1: ESPHome installation under Home Assistant OS (with Add-on Store)**
+## Step 1. Install ESPHome
 
 If you have the Home Assistant OS installed, it has an Add-on Store, which makes it much easier to install ESPHome.
 
@@ -84,304 +90,17 @@ In the Add-on Store, you can search for and install ESPHome.
 
 <div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/80.png" /></div>
 
-- **Scenario 2: ESPHome installed under Home Assistant under OpenWRT Docker/Docker (without Add-on Store)**
+## Step 2. Upload firmware to XIAO ESP32C3
 
-As we are installing the Home Assistant Container, we cannot simply download the ESPHome service via the Add-on Store, so a compromise is needed.
+We've created a quick flash firmware page for the XIAO, you can use the site below directly to flash Relay's firmware for the XIAO you have without programming. The site will automatically detect the chip of the XIAO you are connecting to, without having to choose, and directly flash the XIAO firmware version that corresponds to the ESP32 chip.
 
-We need to download the ESPHome image.
+<div class="get_one_now_container" style={{textAlign: 'center'}}>
+    <a class="get_one_now_item" href="https://limengdu.github.io/Relay_Module_for_XIAO/">
+            <strong><span><font color={'FFFFFF'} size={"4"}>Firmware Flasher 🖱️</font></span></strong>
+    </a>
+</div>
 
-```
-esphome/esphome:latest
-```
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/17.png" /></div>
-
-
-On the page where the container is created, we need to make some simple settings.
-- Container Name: your container name
-- Docker Image: choose just downloaded **esphome** image
-- Network: choose **host** mode
-- Environment Variables(-e): your environment variable
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/18.png" /></div>
-
-
-Once you have filled in the above, save and apply. You will see that the Container has been created. You also need to start it.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/19.png" /></div>
-
-
-In order to achieve the same effect as downloading ESPHome in Home Assistant, we need to modify the configuration file under Home Assistant.
-
-Go to the Home Assistant Container.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/55.png" /></div>
-
-
-We go to the terminal in Home Assistant.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/56.png" /></div>
-
-
-Enter the following command in the terminal.
-
-```sh
-vi configuration.yaml
-```
-
-Add following content to the end of `configuration.yaml`.
-
-```
-# Example configuration.yaml entry
-panel_iframe:
-  esphome:
-    title: "ESPHome"
-    url: "http://192.168.100.1:6052"
-    icon: mdi:chip
-```
-
-Exit the docker container by type ```exit``` in the Home Assistant Container shell. Once this is done, we restart the Home Assistant  container.
-
-Create a new browser page, enter address `http://homeassistant:8123/` and enter your Home Assistant account and you will see ESPHome appear in the toolbar on the left.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/57.png" /></div>
-
-## Configure the XIAO ESP32C3 and ESPHome connection
-
-### Step 2. Hardware connection
-
-The goal of our tutorial is to control Relay Module in the Home Assistant dashboard. First we need to connect XIAO ESP32 C3 to the Relay Module like the following image.
-
-
-:::tip
-Antenna of XIAO is necessary, otherwise you cann't communicate to Home Assistant. Remember to install it.
-:::
-
-### Step 3. Keep the XIAO ESP32C3 and Home Assistant on the same LAN
-
-I am sure that your Home Assistant has already done the work of getting into the network, for example by connecting to your device via a network cable. All you need to do then is simply to turn on a local network (e.g. WiFi) so that the XIAO ESP32C3 can also connect to this network.
-
-I will use the LinkStar H68K as an example below. My aim is to get the XIAO connected to the LinkStar H68K's hotspot.
-
-In the **Network** tab in OpenWRT, select **Wireless** --> **ADD**.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/58.png" /></div>
-
-
-For **Transmit Power** in **Device Configuration**, select **auto**.
-
-For the **Interface Configuration** settings, please fill in the following instructions.
-
-- General Setup
-    - Mode: Depends on how LinkStar accesses the internet. If you are using a cable connection then select **Client**, if you are connected to WiFi then select **Access Point**.
-    - ESSID: Enter the name of your WiFi, please try not to have spaces or special characters.
-    - Network: check **lan**.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/23.png" /></div>
-
-
-- Wireless Security
-    - Encryption: WPA2-PSK
-    - Key: Enter the WiFi password you wish to set.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/24.png" /></div>
-
-
-
-Once you have filled in the above information, click **Save and Apply** in the bottom right hand corner and wait a few moments for LinkStar to open a hotspot.
-
-When no device is connected to this hotspot, it will be displayed as no signal.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/60.png" /></div>
-
-
-All things considered, let's return to the Home Assistant page.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/61.png" /></div>
-
-
-Click on the **NEW DEVICE**. Then click on **Continue**.
-
-Under the new pop-up window, please enter the name of the application you wish to set up, as well as the name and password of the hotspot you have set up in LinkStar (Or your own WiFi). Make sure that the XIAO ESP32C3 and Home Assistant on the **same LAN**.
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/25.png" /></div>
-
-
-Then click **Next**.
-
-In the device type, please select **ESP32-C3**.
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/26.png" /></div>
-
-Then click **Next**.
-
-<span id="jump1">Click on the <strong>Encryption key</strong> and save it in a secure location, we will use this key in a later step.</span>
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/27.png" /></div>
-
-Then click **SKIP**.
-
-### Step 4. Change the XIAO ESP32C3 configuration yaml file
-
-Then, we click on the device tab we just created, with the **EDIT** button in the bottom left corner.
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/28.png" /></div>
-
-
-Please note that we need to make changes to this yaml file. Focus on the red box area where we need to change in the below image.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/1.png" /></div>
-
-Please do not change the device name except the one you have configured, please refer to the code below for the rest of the content.
-
-```css
-esphome:
-  name: xiao-esp32c3
-  friendly_name: xiao_esp32c3
-
-esp32:
-  board: esp32-c3-devkitm-1
-  framework:
-    type: arduino
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: "XehWbrfoYMdE4buwcVMDWQC9c/PB73eA+xlzSMeVSNw="
-
-ota:
-  - platform: esphome
-    password: "2a6ebf121477090bfb2ef3ebc9f7e40f"
-
-wifi:
-  ssid: "Your ssid"
-  password: "Your password"
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Xiao-Esp32C3 Fallback Hotspot"
-    password: "9fpQ1nbukURw"
-
-captive_portal:
-
-# Define the relay switch
-switch:
-  - platform: gpio
-    name: "Relay Control"
-    pin: GPIO3 # XIAO use D1 pin to control the relay module, XIAO ESP32 C3 D1 pin corresponds to GPIO3. XIAO ESP32 C6 is GPIO1; XIAO ESP32 S3 is GPIO2.
-```
-
-
-
-Then, please click on the **Save** button in the top right corner.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/63.png" /></div>
-
-### Step 5. Upload firmware to XIAO ESP32C3
-
-- **Method 1: Compile and upload directly**
-
-If you are using an x86 device and can see XIAO on the device port, then you can compile and upload the program to XIAO.
-
-Connect XIAO to your device.
-
-<div align="center"><img src="https://files.seeedstudio.com/wiki/ESPHome/49.png" style={{width:700, height:'auto'}}/></div>
-
-
-Click on the three dots in the bottom right corner of the device bar and select **Install**.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/84.png" /></div>
-
-
-Click **Plug into the computer running ESPHome Dashboard**.
-
-<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/85.png" /></div>
-
-
-Select the connected port.
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/ESPHome/18.png" /></div>
-
-Now it will download all the necessary board packages and flash the ESPHome firmware into the XIAO ESP32C3. If the flashing is successful, you will see the following output.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/ESPHome/19.png" /></div>
-
-If you are unable to find the port after connecting XIAO to your device, then you can try using the second method.
-
-- **Method 2: Upload compiled firmware using the host**
-
-Soft routes like LinkStar H68K do not support recognition of external MCU devices, we need to download the compiled firmware first and then upload the firmware via another PC.
-
-Click on the **Install** button in the top right hand corner. Then select the last item **Manual download**.
-
-<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/30.png" /></div>
-
-
-Select **Modern format**.
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/31.png" /></div>
-
-It will then take a long time to download and compile, so please be patient. Once everything is ready, the firmware will be automatically downloaded to your computer.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/33.png" /></div>
-
-To upload the firmware to XIAO ESP32C3 there are couple options here we show 2 ways of doing it:
-
-- Option 1: using the [ESPhome Web tool](https://web.esphome.io/?dashboard_install) to upload.
-
-Make sure you have the right drivers installed. Below are the drivers for common chips used in ESP devices.
-
-1. CP2102 drivers: [Windows & Mac](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
-
-2. CH342, CH343, CH9102 drivers: [Windowns](https://www.wch.cn/downloads/CH343SER_ZIP.html), [Mac](https://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html)
-
-3. CH340, CH341 drivers: [Windowns](https://www.wch.cn/downloads/CH341SER_ZIP.html), [Mac](https://www.wch.cn/downloads/CH341SER_MAC_ZIP.html)
-
-Open the [ESPhome Web tool](https://web.esphome.io/?dashboard_install) with Chrome or Edge web browser.
-
-Click **CONNECT**.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/34.png" /></div>
-
-select the XIAO ESP32 serial port in the popup window.
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/64.png" /></div>
-
-Click **INSTALL** and then select the `.bin` file downloaded from above steps.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/35.png" /></div>
-
-<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/38.png" /></div>
-
-
-- Option 2: Using the [esphome-flasher tool](https://github.com/esphome/esphome-flasher).
-
-If you are still unable to upload firmware using method one after installing the driver and changing browsers, then you can try using method two. Please refer to the official tutorial for specific installation methods and instructions.
-
-:::tip
-If you wish to observe the log messages of the XIAO ESP32C3, you can also view them through the View Logs button of this software.
-
-<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/41.png" /></div>
-:::
-
-Once the upload is complete, you can disconnect the XIAO ESP32C3 from the PC (unless you have a need to view the logs) and simply power the XIAO separately.
-
-If all goes well, the XIAO ESP32C3 will search for and connect to the WiFi you have set up for it. 
-
-Just like me, I use LinkStar H68K's network. You can find it in the network options and see the IP address assigned to it by LinkStar H68K.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/42.png" /></div>
-
-Normally, at this point in Home Assistant, the status of the device will also change from offline to online.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/65.png" /></div>
-
-## Add Relay Module to Home Assistant Dashboard
-
-### Step 6. Add relay to dashboard
+## Step 3. Add Relay Module to Home Assistant Dashboard
 
 Go to **setting**, and **Devices & services** 
 
@@ -390,12 +109,6 @@ Go to **setting**, and **Devices & services**
 In the **Discovered** area, you will find XIAO, click **CONGFIUGE**
 
 <div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/2.png" /></div>
-
-**Paste the key** which from the yaml file you edit before.
-
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/14.png" /></div>
-
-<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/3.png" /></div>
 
 Select a area or leave it by default, click **FINISH**
 
