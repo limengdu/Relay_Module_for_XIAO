@@ -1,6 +1,6 @@
 # About
 
-<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/relay_module.jpg" /></div>
+![](https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/relay_module.jpg)
 
 This single-channel 5V relay expansion board, designed for seamless integration with the Seeed Studio XIAO series, brings robust performance and versatility to your projects. Featuring the HF32FA-G relay, it delivers reliable switching capabilities for a variety of applications, from IoT solutions to home automation systems.
 
