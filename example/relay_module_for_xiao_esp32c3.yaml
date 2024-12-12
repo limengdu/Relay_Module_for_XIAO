@@ -1,0 +1,39 @@
+substitutions:
+  name: "seeedstudio-relay-module"
+  friendly_name: "Seeed Studio Relay Module"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: true
+  project:
+    name: "seeedstudio.relay_module"
+    version: "1.0"
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  - platform: esphome
+
+wifi:
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "seeedstudio-relay-module"
+
+captive_portal:
+
+# Define the relay switch
+switch:
+  - platform: gpio
+    name: "Relay Control"
+    pin: GPIO3 # XIAO use D1 pin to control the relay module, XIAO ESP32 C3 D1 pin corresponds to GPIO3. XIAO ESP32 C6 is GPIO1; XIAO ESP32 S3 is GPIO2.
+

@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     paths:
-      - '*.yaml'
+      - 'example/*.yaml'
       - '.github/workflows/ci.yml'
 
 concurrency:
@@ -20,15 +20,13 @@ jobs:
       matrix:
         #### Modify below here to match your project ####
         file:
-          - project-template-esp32
-          - project-template-esp32-c3
-          - project-template-esp32-s3
+          - example/relay_module_for_xiao_esp32c3
+          - example/relay_module_for_xiao_esp32c6
+          - example/relay_module_for_xiao_esp32s3
         #### Modify above here to match your project ####
-
         esphome-version:
           - stable
-          - beta
-          - dev
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4.1.7
@@ -36,9 +34,4 @@ jobs:
         uses: esphome/build-action@v4.0.3
         with:
           yaml-file: ${{ matrix.file }}.yaml
-          version: ${{ matrix.esphome-version }}
-      - name: ESPHome ${{ matrix.esphome-version }} Factory
-        uses: esphome/build-action@v4.0.3
-        with:
-          yaml-file: ${{ matrix.file }}.factory.yaml
           version: ${{ matrix.esphome-version }}
