@@ -11,6 +11,7 @@ esphome:
     version: "1.0"
   platformio_options:
     board_upload.maximum_size: 4194304
+  min_version: "2024.3.2" # Fix logger compile error on ESP32-C6 esphome#6323
 
 esp32:
   board: esp32-c6-devkitc-1
@@ -18,6 +19,24 @@ esp32:
   flash_size: 4MB # upload.flash_size
   framework:
     type: esp-idf
+    platform_version: 6.5.0 # Need at least 6.4 for ESP32-C6
+
+    # Tasmota's release of 5.1.3 works, first-party release does not LOL
+    version: 5.1.3
+    source: https://github.com/tasmota/esp-idf/releases/download/v5.1.3.240325/esp-idf-v5.1.3.zip
+
+    # Fix flash size by ensuring IDF flash size is also set (was defaulting to 2MB?!?)
+    # See https://github.com/esphome/issues/issues/5404
+    sdkconfig_options:
+      CONFIG_ESPTOOLPY_FLASHSIZE_4MB: y
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/ssieb/esphome
+      ref: adc
+    components: [ adc ]
+    refresh: 1min
 
 # Enable logging
 logger:
@@ -40,6 +59,6 @@ captive_portal:
 # Define the relay switch
 switch:
   - platform: gpio
-    name: "Relay Control"
-    pin: GPIO3 # XIAO use D1 pin to control the relay module, XIAO ESP32 C3 D1 pin corresponds to GPIO3. XIAO ESP32 C6 is GPIO1; XIAO ESP32 S3 is GPIO2.
+    name: "Seeed Studio Relay Module Controler"
+    pin: GPIO1 # XIAO use D1 pin to control the relay module, XIAO ESP32 C3 D1 pin corresponds to GPIO3. XIAO ESP32 C6 is GPIO1; XIAO ESP32 S3 is GPIO2.
 

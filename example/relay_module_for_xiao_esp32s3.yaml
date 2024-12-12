@@ -34,6 +34,6 @@ captive_portal:
 # Define the relay switch
 switch:
   - platform: gpio
-    name: "Relay Control"
-    pin: GPIO3 # XIAO use D1 pin to control the relay module, XIAO ESP32 C3 D1 pin corresponds to GPIO3. XIAO ESP32 C6 is GPIO1; XIAO ESP32 S3 is GPIO2.
+    name: "Seeed Studio Relay Module Controler"
+    pin: GPIO2 # XIAO use D1 pin to control the relay module, XIAO ESP32 C3 D1 pin corresponds to GPIO3. XIAO ESP32 C6 is GPIO1; XIAO ESP32 S3 is GPIO2.
 
