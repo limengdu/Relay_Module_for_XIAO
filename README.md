@@ -102,6 +102,8 @@ We've created a quick flash firmware page for the XIAO, you can use the site bel
 
 ## Step 3. Add Relay Module to Home Assistant Dashboard
 
+After flashing the firmware, you can see that there is a wireless network named **seedstudio-relay-module**. Please connect to this network and enter `192.168.4.1` in your browser to configure the network for your device. Please use the same network as your Home Assistant.
+
 Go to **setting**, and **Devices & services** 
 
 <div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/XIAO/Gadgets/relay_module_for_xiao/5.png" /></div>
