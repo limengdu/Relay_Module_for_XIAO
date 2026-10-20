@@ -1,0 +1,43 @@
+substitutions:
+  name: "seeedstudio-relay-module"
+  friendly_name: "Seeed Studio Relay Module"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: true
+  project:
+    name: "seeedstudio.relay_module"
+    version: "1.0"
+  min_version: "2025.11.5" # Seeed XIAO ESP32-C5 support in ESPHome
+
+esp32:
+  board: esp32-c5-devkitc-1
+  variant: esp32c5
+  flash_size: 8MB
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+  hardware_uart: USB_SERIAL_JTAG
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+
+ota:
+  - platform: esphome
+
+wifi:
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "seeedstudio-relay-module"
+
+captive_portal:
+
+# Define the relay switch
+switch:
+  - platform: gpio
+    name: "Seeed Studio Relay Module Controler"
+    pin: GPIO0 # XIAO uses D1 to control the relay module. XIAO ESP32-C5 D1 is GPIO0 (Seeed wiki pin map; arduino-esp32 variant XIAO_ESP32C5). C3 D1=GPIO3; C6 D1=GPIO1; S3 D1=GPIO2.

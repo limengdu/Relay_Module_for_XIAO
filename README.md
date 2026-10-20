@@ -21,7 +21,9 @@ For more information, [click here to download PDF file](https://files.seeedstudi
 
 ## Getting Started
 
-If you want to follow this tutorial through everything, you will need to prepare the following. Except for XIAO ESP32 C3, you can also use other ESP32 series products, like XIAO ESP32 C6 and XIAO ESP32 S3. The ultimate goal of this project is to control relay module in the Home Assistant.
+If you want to follow this tutorial through everything, you will need to prepare the following. Besides XIAO ESP32-C3, you can use other ESP32-series XIAO boards: ESP32-C6, ESP32-S3, and ESP32-C5. The ultimate goal of this project is to control relay module in the Home Assistant.
+
+ESPHome YAML for each board lives in [`example/`](example/README.md). The relay module is always driven from **XIAO pin D1**; on XIAO ESP32-C5 that pin is **GPIO0**.
 
 <table align="center">
  <tr>

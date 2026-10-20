@@ -21,6 +21,7 @@ jobs:
         #### Modify below here to match your project ####
         file:
           - example/relay_module_for_xiao_esp32c3
+          - example/relay_module_for_xiao_esp32c5
           - example/relay_module_for_xiao_esp32c6
           - example/relay_module_for_xiao_esp32s3
         #### Modify above here to match your project ####
