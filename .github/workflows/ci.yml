@@ -21,6 +21,7 @@ jobs:
         #### Modify below here to match your project ####
         file:
           - example/relay_module_for_xiao_esp32c3
+          - example/relay_module_for_xiao_esp32c5
           - example/relay_module_for_xiao_esp32c6
           - example/relay_module_for_xiao_esp32s3
         #### Modify above here to match your project ####
@@ -31,7 +32,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4.1.7
       - name: ESPHome ${{ matrix.esphome-version }}
-        uses: esphome/build-action@v4.0.3
+        uses: esphome/build-action@v8.1.0
         with:
           yaml-file: ${{ matrix.file }}.yaml
           version: ${{ matrix.esphome-version }}
